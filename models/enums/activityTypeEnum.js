@@ -1,0 +1,1 @@
+module.exports = ["No Exercise","Little Exercise","Daily Exercise","Routine Physical Work","Exercise And Physical Work"];
