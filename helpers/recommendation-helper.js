@@ -7,7 +7,7 @@ var container = {
     "calculateFoodMetricsForUser" : function(user){
         if(!user)
             throw "No User Provided !";
-        var idealOneTimeKcal = dietHelper.calculateIdealKiloCalorieRequirementPerDay(user)/3;
+        var idealOneTimeKcal = dietHelper.idealKiloCalorieRequirementPerDay(user)/3;
         var set = foodItems.map(function(obj){
                 var kCal = parseFloat(obj["kCal"]);
                 var multiple = Math.floor(idealOneTimeKcal/kCal);

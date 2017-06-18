@@ -9,8 +9,10 @@ var handler = require("../helpers/handle-response");
 router.post("/authenticate",function(req,res,next){
   req.body["is_activated"] = true;
   User.findOne(req.body,function(err,user){
-    if(err)
+    if(err){
       handler.error(res,err);
+      return;
+    }
     handler.success(res,user);
   });
 });
@@ -19,9 +21,15 @@ router.post("/authenticate",function(req,res,next){
  * Returns the user on the basis of id.
  */
 router.get("/get/:id",function(req,res,next){
-  User.findOne({ "_id" : ObjectId(req.params.id) , "is_activated" : true},function(err,user){
-    if(err)
+  User.findOne({ "_id" : req.params.id , "is_activated" : true},function(err,user){
+    if(err){
       handler.error(res,err);
+      return;
+    }
+    else if(user == null){
+      handler.error(res,"No Such User Exists");
+      return;
+    }
     handler.success(res,user);
   })
 });
@@ -31,9 +39,12 @@ router.get("/get/:id",function(req,res,next){
  */
 router.post("/add",function(req,res,next){
   var user = new User(req.body);
+  user["is_activated"] = true;
   user.save(function(err){
-    if(err)
+    if(err){
       handler.error(res,err);
+      return;
+    }
     handler.success(res,user);
   })
 });
@@ -42,13 +53,19 @@ router.post("/add",function(req,res,next){
  * Updates the user details.
  */
 router.put("/update/:id",function(req,res,next){
-  User.findOneAndUpdate({ "_id" : ObjectId(req.params.id) , "is_activated" : true},req.body,{
+  User.findOneAndUpdate({ "_id" : req.params.id , "is_activated" : true},req.body,{
     upsert : false,
     new : true,
     runValidators : true
   },function(err,user){
-    if(err)
+    if(err){
       handler.error(res,err);
+      return;
+    }
+    else if(user == null){
+      handler.error(res,"No Such User Exists");
+      return;
+    }
     handler.success(res,user);
   })
 });
@@ -57,15 +74,17 @@ router.put("/update/:id",function(req,res,next){
 /**
  * Deletes the user on the basis of id.
  */
-router.delete("/get/:id",function(req,res,next){
-  User.find({ "_id" : ObjectId(req.param.id) }, function(err, user) {
-      if (err) 
-          handler.error(res,err);
-      user.remove(function(err) {
-        if (err) 
-          handler.error(res,err);
-        handler.success(res,"Deleted Successfully");  
-      });
+router.delete("/delete/:id",function(req,res,next){
+  User.findByIdAndRemove(req.param.id , function(err, user) {
+      if (err) {
+        if(err.name == "CastError"){
+          handler.error(res,"No Such User Details Exists");
+          return;
+        }
+        handler.error(res,err);
+        return;
+      }
+      handler.success(res,"User Successfully Deleted");
   });
 });
 

@@ -11,16 +11,11 @@ var DietSchema = new Schema({
         type : String,
         required : false,
     },
-    "duration_days" : {
-        type : Number,
-        min : 7,
-        max : 28
-    },
     "user" : {
         type : User.schema,
         required : true
     },
-    "calories_per_day" : {
+    "kilo_calories_per_day" : {
        type : Number,
        required : false
     },

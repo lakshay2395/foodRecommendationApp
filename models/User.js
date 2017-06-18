@@ -6,6 +6,10 @@ var activityTypeEnum = require("./enums/activityTypeEnum");
 
 var accountTypeEnum = require("./enums/accountTypeEnum");
 
+var weightUnits = require("../const/weight-units");
+
+var heightUnits = require("../const/height-units");
+
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
@@ -49,9 +53,19 @@ var UserSchema = new Schema({
             type : Number,
             required : true,
         },
+        "height_unit" : {
+            type : String,
+            required : true,
+            enum : heightUnits
+        },
         "weight" : {
             type: Number,
             required : true,
+        },
+        "weight_unit" : {
+            type : String,
+            required : true,
+            enum : weightUnits
         }
     },
     "activity_type" : {
@@ -68,7 +82,7 @@ var UserSchema = new Schema({
     },
     "is_activated" : {
         type : Boolean,
-        required : true
+        required : false
     }
 });
 

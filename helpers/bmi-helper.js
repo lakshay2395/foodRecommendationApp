@@ -6,7 +6,7 @@ var container = {
     "calculateBmi" : function(weight,height){
         /**
          * weight must be in kg
-         * height must be in cm
+         * height must be in m
          */
          var bmi = weight/(height*height);
          return bmi;    

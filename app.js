@@ -1,16 +1,27 @@
-var express = require('express');
+var express = require('express'),mailer = require('express-mailer');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require("mongoose");
+
+// mongoose.connect(require("./conf/db-credentials")["DB_URL"],{server:{
+//     socketOptions : {keepAlive : 1}
+// }});
+
+mongoose.connect("mongodb://127.0.0.1:27017/foodrecommendationdb",{server:{
+     socketOptions : {keepAlive : 1}
+}});
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 var diets = require("./routes/diet");
+var consts = require("./routes/consts");
+var tests = require("./routes/tests");
 
 var app = express();
-
+mailer.extend(app,require("./conf/mail-credentials"));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -26,6 +37,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/user', users);
 app.use('/diet',diets);
+app.use("/const",consts);
+app.use("/test",tests);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
