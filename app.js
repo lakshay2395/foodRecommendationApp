@@ -6,13 +6,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require("mongoose");
 
-// mongoose.connect(require("./conf/db-credentials")["DB_URL"],{server:{
-//     socketOptions : {keepAlive : 1}
-// }});
-
-mongoose.connect("mongodb://127.0.0.1:27017/foodrecommendationdb",{server:{
-     socketOptions : {keepAlive : 1}
+mongoose.connect(require("./conf/db-credentials")["DB_URL"],{server:{
+    socketOptions : {keepAlive : 1}
 }});
+
+// mongoose.connect("mongodb://127.0.0.1:27017/foodrecommendationdb",{server:{
+//      socketOptions : {keepAlive : 1}
+// }});
 
 var index = require('./routes/index');
 var users = require('./routes/users');
