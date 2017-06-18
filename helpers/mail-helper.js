@@ -5,8 +5,8 @@ var credentials = require("../conf/project-credentials");
 var container = {
 
     "sendRegistrationSuccessMail" : function(name,email){
-       app.mailer.send("registerSuccessMail",{
-           "to" : to,
+       app.mailer.send("index",{
+           "to" : email,
            "subject" : "Your registration with "+credentials.PROJECT_NAME+" is sucessful !",
            "name": name
        },function(err){
@@ -18,7 +18,7 @@ var container = {
 
     "sendDailyFoodItemsSuggestionMail" : function(email,foodItems){
        app.mailer.send("dailyFoodItemsSuggestionMail",{
-           "to" : to,
+           "to" : email,
            "subject" : "Here are your today suggested one time meals from "+credentials.PROJECT_NAME+" !",
            "foodItems" : foodItems
        },function(err){
