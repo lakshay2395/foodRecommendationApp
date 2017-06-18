@@ -59,6 +59,3 @@ typings/
 
 #directory for vscode settings
 .vscode
-
-#directory for hidden configurations
-conf
