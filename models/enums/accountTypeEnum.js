@@ -1,1 +1,1 @@
-module.exports = ["Google","Facebook","Twitter"];
+module.exports = ["google","facebook"];

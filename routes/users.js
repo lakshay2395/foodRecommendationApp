@@ -8,7 +8,8 @@ var handler = require("../helpers/handle-response");
  */
 router.post("/authenticate",function(req,res,next){
   req.body["is_activated"] = true;
-  User.findOne(req.body,function(err,user){
+  delete req.body["name"];
+  User.findOne({ "email" : req.body["email"] },function(err,user){
     if(err){
       handler.error(res,err);
       return;

@@ -2,37 +2,42 @@ var mongoose = require("mongoose");
 
 var User = require("./User");
 
+var Food = require("./Food");
+
 var notificationEnum = require("./enums/notificationEnum");
 
 var Schema = mongoose.Schema;
 
 var DietSchema = new Schema({
-    "title" : {
-        type : String,
-        required : false,
-    },
     "user" : {
         type : User.schema,
         required : true
     },
-    "kilo_calories_per_day" : {
-       type : Number,
-       required : false
+    "currentKiloCalorieRequirementPerDay" : {
+        type : String,
+        required : true
     },
-    "is_activated" : {
-        "status" : {
-            type : Boolean,
+    "idealKiloCalorieRequirementPerDay" : {
+        type : String,
+        required : true
+    },
+    "idealWeightInKgs" : {
+        type : String,
+        required : true
+    },
+    "foodItems" : {
+        type : [Food.schema],
+        required : false
+    },
+    "bmi_data" : {
+        "bmi" : {
+            type : String,
             required : true
         },
-        "reason_for_close" : {
+        "status" : {
             type : String,
-            required : false
+            required : true
         }
-    },
-    "notification_type" : {
-        type : String,
-        enum : notificationEnum,
-        required : false,
     },
     "created_date" : {
         type : Date,

@@ -14,8 +14,10 @@ var recommendationHelper = require("../helpers/recommendation-helper");
  */
 router.post("/add",function(req,res,next){
   diet = new Diet(req.body);
-  diet["kilo_calories_per_day"] = dietHelper.idealKiloCalorieRequirementPerDay(diet.user);
-  console.log("kCal = "+diet["kilo_calories_per_day"]);
+  for(var i = 0 ; i < req.body['foodItems'].length ; i++){
+    delete req.body['foodItems'][i]['_id'];
+  }
+  console.log(req.body);
   diet.save(function(err){
       if(err){
         handler.error(res,err);
@@ -63,7 +65,6 @@ router.get("/get/user/:userId",function(req,res,next){
  * Updates the diet plan by id.
  */
 router.put("/update/:id",function(req,res,next){
-    req.body["kilo_calories_per_day"] = dietHelper.idealKiloCalorieRequirementPerDay(req.body.user);
     Diet.findOneAndUpdate({ "_id" : req.params.id},req.body,{
       upsert : false,
       new : true,
@@ -102,24 +103,24 @@ router.delete("/delete/:id",function(req,res,next){
  * Returns user diet details by user id.
  */
 router.get("/get/userDietDetails/:userId",function(req,res,next){
-  Diet.findOne({ "user._id" : req.params.userId, "is_activated.status" : true},function(err,diet){
+  User.findOne({ "_id" : req.params.userId, "is_activated" : true},function(err,user){
     if(err){
       handler.error(res,err);
       return;
     }
-    else if(diet == null){
-      handler.error(res,"No Such Diet Exists");
+    else if(user == null){
+      handler.error(res,"No Such User Exists");
       return;
     }
-    var height = converter(diet.user["bmi_parameters"]["height"]).from(diet.user["bmi_parameters"]["height_unit"]).to("m");
-    var weight = converter(diet.user["bmi_parameters"]["weight"]).from(diet.user["bmi_parameters"]["weight_unit"]).to("kg");
+    var height = converter(user["bmi_parameters"]["height"]).from(user["bmi_parameters"]["height_unit"]).to("m");
+    var weight = converter(user["bmi_parameters"]["weight"]).from(user["bmi_parameters"]["weight_unit"]).to("kg");
     var bmi = bmiCalculator.calculateBmi(weight,height);
     var status = bmiCalculator.statusOnBmi(bmi);
     var data = {
-      "currentKiloCalorieRequirementPerDay" : dietHelper.currentKiloCalorieRequirementPerDay(diet.user),
-      "idealKiloCalorieRequirementPerDay" : dietHelper.idealKiloCalorieRequirementPerDay(diet.user),
-      "idealWeightInKgs" : dietHelper.idealWeight(diet.user),
-      "foodItems" : recommendationHelper.calculateFoodMetricsForUser(diet.user),
+      "currentKiloCalorieRequirementPerDay" : dietHelper.currentKiloCalorieRequirementPerDay(user),
+      "idealKiloCalorieRequirementPerDay" : dietHelper.idealKiloCalorieRequirementPerDay(user),
+      "idealWeightInKgs" : dietHelper.idealWeight(user),
+      "foodItems" : recommendationHelper.calculateFoodMetricsForUser(user),
       "bmi_data" : {
         "bmi" : bmi,
         "status" : status

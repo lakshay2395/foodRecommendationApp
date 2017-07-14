@@ -41,7 +41,7 @@ var UserSchema = new Schema({
         enum : accountTypeEnum
     },
     "account_id" : {
-        type : Number,
+        type : String,
         required : true
     },
     "pic_url" : {

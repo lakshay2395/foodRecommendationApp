@@ -17,10 +17,10 @@ var container = {
     },
 
     "sendDailyFoodItemsSuggestionMail" : function(email,foodItems,res){
-       res.mailer.send("dailyFoodItemsSuggestionMail",{
+       res.mailer.send("regularEmail",{
            "to" : email,
            "subject" : "Here are your today suggested one time meals from "+credentials.PROJECT_NAME+" !",
-           "foodItems" : foodItems
+           "name" : name
        },function(err){
            if(err){
                console.log(err);
