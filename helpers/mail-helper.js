@@ -16,7 +16,7 @@ var container = {
        }); 
     },
 
-    "sendDailyFoodItemsSuggestionMail" : function(email,foodItems,res){
+    "sendDailyFoodItemsSuggestionMail" : function(email,res){
        res.mailer.send("regularEmail",{
            "to" : email,
            "subject" : "Here are your today suggested one time meals from "+credentials.PROJECT_NAME+" !",

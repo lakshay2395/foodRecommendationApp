@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require("../models/User");
 var handler = require("../helpers/handle-response");
+var mailHelper = require("../helpers/mail-helper");
 
 /**
  * Authenticate user on the basis of account details.
@@ -46,6 +47,7 @@ router.post("/add",function(req,res,next){
       handler.error(res,err);
       return;
     }
+    mailHelper.sendRegistrationSuccessMail(user.name['first_name'],user.email,res);
     handler.success(res,user);
   })
 });

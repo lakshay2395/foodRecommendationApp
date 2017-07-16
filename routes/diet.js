@@ -48,7 +48,7 @@ router.get("/get/:id",function(req,res,next){
  * Returns the diet plan list by user id.
  */
 router.get("/get/user/:userId",function(req,res,next){
-  Diet.findOne({ "user._id" : req.params.userId ,"is_activated.status" : true },function(err,diet){
+  Diet.findOne({ "user._id" : req.params.userId },function(err,diet){
     if(err){
       handler.error(res,err);
       return;

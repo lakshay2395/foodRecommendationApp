@@ -34,17 +34,17 @@ module.exports = {
             for(var i = 0 ; i < items.length ; i++)
                 tokens.push(items[i]['device_token']);
             var payload = {
-            data: {
-                message : "Your daily food suggestions are ready!!"
-            }
-        };
-        admin.messaging().sendToDevice(tokens, payload)
-            .then(function(response) {
-                console.log("Successfully sent message:", response);
-            })
-            .catch(function(error) { 
-                console.log("Error sending message:", error);
-            });
+                data: {
+                    message : "Your daily food suggestions are ready!!"
+                }
+            };
+            admin.messaging().sendToDevice(tokens, payload)
+                .then(function(response) {
+                    console.log("Successfully sent message:", response);
+                })
+                .catch(function(error) { 
+                    console.log("Error sending message:", error);
+                });
         })
     }
 }
